@@ -2,7 +2,7 @@ use bollard::{
     Docker,
     container::{ListContainersOptions, StartContainerOptions, StopContainerOptions},
     errors::Error,
-    image::ListImagesOptions,
+    image::{CreateImageOptions, ListImagesOptions},
     secret::{ContainerSummary, ImageSummary},
 };
 
@@ -49,9 +49,11 @@ impl DockerClient {
         Ok(())
     }
 
-    pub async fn stop_container(&self, container_name: &str) -> Result<(), Error> {
+    pub async fn stop_container(&self, container_name: &str, delay: i64) -> Result<(), Error> {
+        let options = StopContainerOptions { t: delay };
+
         self.docker
-            .stop_container(container_name, None::<StopContainerOptions>)
+            .stop_container(container_name, Some(options))
             .await?;
         Ok(())
     }

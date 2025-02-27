@@ -27,6 +27,9 @@ pub enum Command {
     Stop {
         /// The container name
         name: String,
+        /// Time delay before stop
+        #[arg(short, long, default_value_t = 0)]
+        delay: i64,
     },
 }
 
