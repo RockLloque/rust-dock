@@ -35,4 +35,10 @@ pub enum ListCommands {
         #[arg(short, long)]
         all: bool,
     },
+    /// Start container
+    StartContainer {
+        /// Container name
+        #[arg(short, long)]
+        name: String,
+    },
 }
