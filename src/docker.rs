@@ -1,6 +1,6 @@
 use bollard::{
     Docker,
-    container::ListContainersOptions,
+    container::{ListContainersOptions, StartContainerOptions, StopContainerOptions},
     errors::Error,
     image::ListImagesOptions,
     secret::{ContainerSummary, ImageSummary},
@@ -40,5 +40,12 @@ impl DockerClient {
         };
         let images = self.docker.list_images(Some(options)).await?;
         Ok(images)
+    }
+
+    pub async fn start_container(&self, container_name: &str) -> Result<(), Error> {
+        self.docker
+            .start_container(container_name, None::<StartContainerOptions<String>>)
+            .await?;
+        Ok(())
     }
 }

@@ -18,9 +18,14 @@ pub enum Command {
         #[command(subcommand)]
         list_command: ListCommands,
     },
+    /// Start container
+    Start {
+        /// The container name
+        name: String,
+    },
 }
 
-/// Enuma for subcommands under List
+/// Enum for subcommands under List
 #[derive(Subcommand)]
 pub enum ListCommands {
     /// List containers
@@ -34,11 +39,5 @@ pub enum ListCommands {
         /// Include stopped images
         #[arg(short, long)]
         all: bool,
-    },
-    /// Start container
-    StartContainer {
-        /// Container name
-        #[arg(short, long)]
-        name: String,
     },
 }

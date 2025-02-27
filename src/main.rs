@@ -55,5 +55,12 @@ async fn main() {
                 }
             }
         },
+        Command::Start { name } => {
+            println!("Starting container: {name}");
+            match docker_client.start_container(name.as_str()).await {
+                Err(e) => eprintln!("Error starting container: {}", e),
+                Ok(_) => println!("Started container {}", &name),
+            }
+        }
     }
 }
