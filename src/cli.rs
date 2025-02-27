@@ -31,6 +31,11 @@ pub enum Command {
         #[arg(short, long, default_value_t = 0)]
         delay: i64,
     },
+    /// Pull image
+    Pull {
+        /// The image name
+        name: String,
+    },
 }
 
 /// Enum for subcommands under List

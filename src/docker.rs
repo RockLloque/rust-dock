@@ -5,6 +5,7 @@ use bollard::{
     image::{CreateImageOptions, ListImagesOptions},
     secret::{ContainerSummary, ImageSummary},
 };
+use futures_util::TryStreamExt;
 
 pub struct DockerClient {
     docker: Docker,
@@ -55,6 +56,21 @@ impl DockerClient {
         self.docker
             .stop_container(container_name, Some(options))
             .await?;
+        Ok(())
+    }
+
+    pub async fn create_image(&self, image_name: &str) -> Result<(), Error> {
+        let options = CreateImageOptions {
+            from_image: image_name,
+            ..Default::default()
+        };
+        let mut stream = self.docker.create_image(Some(options), None, None);
+
+        while let Some(msg) = stream.try_next().await? {
+            if let Some(status) = msg.status {
+                println!("{status}");
+            }
+        }
         Ok(())
     }
 }

@@ -69,5 +69,12 @@ async fn main() {
                 Ok(_) => println!("Stopped container {}", &name),
             }
         }
+        Command::Pull { name } => {
+            println!("Pulling container {}", &name);
+            match docker_client.create_image(name.as_str()).await {
+                Err(e) => eprintln!("Error pulling image: {}", e),
+                Ok(_) => println!("Image pulled succesfully"),
+            }
+        }
     }
 }
