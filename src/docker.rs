@@ -48,4 +48,11 @@ impl DockerClient {
             .await?;
         Ok(())
     }
+
+    pub async fn stop_container(&self, container_name: &str) -> Result<(), Error> {
+        self.docker
+            .stop_container(container_name, None::<StopContainerOptions>)
+            .await?;
+        Ok(())
+    }
 }

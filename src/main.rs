@@ -62,5 +62,12 @@ async fn main() {
                 Ok(_) => println!("Started container {}", &name),
             }
         }
+        Command::Stop { name } => {
+            println!("Stoping container: {name}");
+            match docker_client.stop_container(name.as_str()).await {
+                Err(e) => eprintln!("Error stoping container: {}", e),
+                Ok(_) => println!("Stopped container {}", &name),
+            }
+        }
     }
 }

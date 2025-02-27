@@ -23,6 +23,11 @@ pub enum Command {
         /// The container name
         name: String,
     },
+    /// Stop container
+    Stop {
+        /// The container name
+        name: String,
+    },
 }
 
 /// Enum for subcommands under List
