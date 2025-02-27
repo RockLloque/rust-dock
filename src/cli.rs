@@ -29,4 +29,10 @@ pub enum ListCommands {
         #[arg(short, long)]
         all: bool,
     },
+    /// List Images
+    Images {
+        /// Include stopped images
+        #[arg(short, long)]
+        all: bool,
+    },
 }
