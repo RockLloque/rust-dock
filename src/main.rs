@@ -1,7 +1,7 @@
 mod cli;
 mod docker;
 
-use bollard::secret::ContainerSummary;
+use bollard::secret::{ContainerSummary, ImageSummary};
 use clap::Parser;
 use cli::{Cli, Command, ListCommands};
 use docker::DockerClient;
@@ -35,6 +35,23 @@ async fn main() {
                         }
                     }
                     Err(e) => eprintln!("Error listing containers: {}", e),
+                }
+            }
+            ListCommands::Images { all } => {
+                println!("Printing Images");
+                match docker_client.list_images(all).await {
+                    Err(e) => eprintln!("Error listing images: {}", e),
+                    Ok(images) => {
+                        for ImageSummary {
+                            id,
+                            parent_id,
+                            containers,
+                            ..
+                        } in images
+                        {
+                            println!("{id}\t{parent_id}\t{containers}");
+                        }
+                    }
                 }
             }
         },
